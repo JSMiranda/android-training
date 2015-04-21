@@ -1,13 +1,11 @@
 package com.example.miranda.lab4_ex1;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     private Button mButton;
     private TextView mTextView;
     private int counter = 0;
@@ -34,6 +32,7 @@ public class MainActivity extends ActionBarActivity {
 
         mTextView = (TextView) findViewById(R.id.text);
         mButton = (Button) findViewById(R.id.button);
+        mButton.setOnClickListener(this);
     }
 
 
@@ -59,9 +58,12 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void downloadOnClick(View v) {
+    @Override
+    public void onClick(View v) {
         counter++;
-        Log.d(this.getLocalClassName(), "Button was clicked " + counter + " times.");
+        Log.d(MainActivity.class.getName(), "Button was clicked " + counter + " times.");
+
+        // Just a test... this prevents the button from being reused (not wanted). The log above shows if it is being reused or not
         if(counter>1) return;
 
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -78,7 +80,6 @@ public class MainActivity extends ActionBarActivity {
             mTextView.setText("No network connection available.");
         }
     }
-
 
     /**
      * AsyncTask to fetch the data in the background away from the UI thread
